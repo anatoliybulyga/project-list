@@ -1,54 +1,54 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = [
-    {
-        id: 'project_a',
-        name: 'Project A',
-        startDate: '2025-01-01',
-        endDate: '2025-12-31',
-        manager: 'John Doe',
-        isFavorite: true
-      },
-      {
-          id: 'project_b',
-          name: 'Project B',
-          startDate: '2025-01-01',
-          endDate: '2025-12-31',
-          manager: 'John Doe',
-          isFavorite: true
-        },
-        {
-          id: 'project_c',
-          name: 'Project C',
-          startDate: '2025-01-01',
-          endDate: '2025-12-31',
-          manager: 'John Doe',
-        },
-        {
-          id: 'project_e',
-          name: 'Project E',
-          startDate: '2025-01-01',
-          endDate: '2025-12-31',
-          manager: 'John Doe',
-        },
-        {
-          id: 'project_F',
-          name: 'Project F',
-          startDate: '2025-01-01',
-          endDate: '2025-12-31',
-          manager: 'John Doe',
-        },
-        {
-          id: 'project_g',
-          name: 'Project G',
-          startDate: '2025-01-01',
-          endDate: '2025-12-31',
-          manager: 'John Doe',
-        }
+  {
+    id: "project_a",
+    name: "Project A",
+    startDate: "2025-01-01",
+    endDate: "2025-12-31",
+    manager: "John Doe",
+    isFavorite: true
+  },
+  {
+    id: "project_b",
+    name: "Project B",
+    startDate: "2025-01-01",
+    endDate: "2025-12-31",
+    manager: "John Doe",
+    isFavorite: true
+  },
+  {
+    id: "project_c",
+    name: "Project C",
+    startDate: "2025-01-01",
+    endDate: "2025-12-31",
+    manager: "John Doe"
+  },
+  {
+    id: "project_e",
+    name: "Project E",
+    startDate: "2025-01-01",
+    endDate: "2025-12-31",
+    manager: "John Doe"
+  },
+  {
+    id: "project_F",
+    name: "Project F",
+    startDate: "2025-01-01",
+    endDate: "2025-12-31",
+    manager: "John Doe"
+  },
+  {
+    id: "project_g",
+    name: "Project G",
+    startDate: "2025-01-01",
+    endDate: "2025-12-31",
+    manager: "John Doe"
+  }
 ];
 
 const projectSlice = createSlice({
-  name: 'projects',
+  name: "projects",
   initialState,
   reducers: {
     updateProject: (state, action) => {
@@ -61,8 +61,8 @@ const projectSlice = createSlice({
         project.endDate = endDate;
         project.manager = manager;
       }
-    },
-  },
+    }
+  }
 });
 
 export const { updateProject } = projectSlice.actions;

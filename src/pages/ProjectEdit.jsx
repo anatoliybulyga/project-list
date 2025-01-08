@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
-import { Form, Input, DatePicker, Button } from 'antd';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateProject } from '../redux/slices/projectSlice'; 
-import moment from 'moment';
+import React, { useEffect } from "react";
+import { Form, Input, DatePicker, Button } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProject } from "../redux/slices/projectSlice";
+import moment from "moment";
 
 const ProjectEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const project = useSelector((state) => state.projects.find((project) => project.id === id));
 
   const [form] = Form.useForm();
-  
+
   useEffect(() => {
     if (project) {
       form.setFieldsValue({
@@ -22,14 +22,14 @@ const ProjectEdit = () => {
         description: project.description,
         startDate: moment(project.startDate),
         endDate: moment(project.endDate),
-        manager: project.manager,
+        manager: project.manager
       });
     }
   }, [project, form]);
 
   const onFinish = (values) => {
     dispatch(updateProject(values));
-    navigate('/');
+    navigate("/");
   };
 
   if (!project) return <div>Project not found</div>;
@@ -54,7 +54,9 @@ const ProjectEdit = () => {
       <Form.Item label="Project Manager" name="manager">
         <Input />
       </Form.Item>
-      <Button type="primary" htmlType="submit">Save</Button>
+      <Button type="primary" htmlType="submit">
+        Save
+      </Button>
     </Form>
   );
 };

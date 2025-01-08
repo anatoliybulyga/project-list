@@ -3,6 +3,7 @@
 This project is a simple React-based application that allows you to manage and edit a list of projects, including their names, descriptions, start and end dates, and project manager details. It also includes a sidebar where users can view their favorite projects.
 
 ## Features
+
 - **Project List**: View all projects with their details (ID, name, start date, end date, and project manager).
 - **Edit Project**: Edit project details such as name, description, start date, and end date.
 - **Favorites**: Mark projects as "favorites" and view them in the sidebar.
@@ -64,7 +65,6 @@ yarn start
 ```
 
 The application will be available at http://localhost:3000.
-
 
 ## Usage
 
