@@ -14,7 +14,7 @@ const Sidebar = () => {
     }))
   ];
 
-  return <Menu theme="dark" mode="inline" items={items} />;
+  return <Menu className="mt-8" theme="dark" mode="inline" items={items} />;
 };
 
 export default Sidebar;

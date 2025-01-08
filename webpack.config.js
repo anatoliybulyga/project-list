@@ -19,7 +19,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"]
+        use: ["style-loader", "css-loader", "postcss-loader"]
       }
     ]
   },
@@ -28,12 +28,13 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "public", "index.html") // Use path.resolve to handle file paths
+      template: path.resolve(__dirname, "public", "index.html")
     })
   ],
   devServer: {
     static: "./dist",
     hot: true,
-    port: 3000
+    port: 3000,
+    historyApiFallback: true
   }
 };

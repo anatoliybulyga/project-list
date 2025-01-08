@@ -60,6 +60,8 @@ const projectSlice = createSlice({
         project.startDate = startDate;
         project.endDate = endDate;
         project.manager = manager;
+      } else {
+        console.warn(`Project with id ${id} not found.`);
       }
     }
   }

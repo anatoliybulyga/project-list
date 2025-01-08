@@ -5,12 +5,12 @@ import Sidebar from "./Sidebar";
 const { Sider, Content } = AntdLayout;
 
 const Layout = ({ children }) => (
-  <AntdLayout style={{ minHeight: "100vh" }}>
+  <AntdLayout className="mt-0 min-h-screen">
     <Sider>
       <Sidebar />
     </Sider>
     <AntdLayout>
-      <Content style={{ padding: "24px", background: "#fff" }}>{children}</Content>
+      <Content className="p-6 bg-white">{children}</Content>
     </AntdLayout>
   </AntdLayout>
 );

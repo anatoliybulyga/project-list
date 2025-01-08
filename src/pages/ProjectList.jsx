@@ -1,7 +1,8 @@
 import React from "react";
-import { Table, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import SharedTable from "../components/shared/Table";
+import SharedButton from "../components/shared/Button";
 
 const ProjectList = () => {
   const navigate = useNavigate();
@@ -36,11 +37,11 @@ const ProjectList = () => {
     {
       title: "Action",
       key: "action",
-      render: (_, record) => <Button onClick={() => navigate(`/edit/${record.id}`)}>Edit</Button>
+      render: (_, record) => <SharedButton onClick={() => navigate(`/edit/${record.id}`)}>Edit</SharedButton>
     }
   ];
 
-  return <Table columns={columns} dataSource={projects} rowKey="id" />;
+  return <SharedTable columns={columns} dataSource={projects} rowKey="id" />;
 };
 
 export default ProjectList;
