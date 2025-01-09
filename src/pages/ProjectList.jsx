@@ -1,12 +1,23 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import SharedTable from "../components/shared/Table";
 import SharedButton from "../components/shared/Button";
+import { useProjects } from "../context/ProjectsContext";
 
 const ProjectList = () => {
+  const { projects, status, error } = useProjects();
   const navigate = useNavigate();
-  const projects = useSelector((state) => state.projects);
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (status === "failed") {
+    return <div>Error: {error}</div>;
+  }
+
+  if (status === "loading") return <p>Loading projects...</p>;
+  if (status === "failed") return <p>Error: {error}</p>;
 
   const columns = [
     {

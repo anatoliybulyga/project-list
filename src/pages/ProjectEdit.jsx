@@ -1,61 +1,69 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, DatePicker, message } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { updateProject } from "../redux/slices/projectSlice";
-import dayjs from "dayjs";
 import SharedButton from "../components/shared/Button";
+import dayjs from "dayjs";
+import { useProjects } from "../context/ProjectsContext";
 
 const ProjectEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [form] = Form.useForm();
-
-  const [error, setError] = useState(null);
-
-  const project = useSelector((state) => state.projects.find((project) => project.id === id));
   const dateFormat = "YYYY-MM-DD";
-  console.log("here111");
-  useEffect(() => {
-    if (project) {
-      form.setFieldsValue({
-        id: project.id,
-        name: project.name,
-        description: project.description,
-        startDate: dayjs(project.startDate, dateFormat),
-        endDate: dayjs(project.endDate, dateFormat),
-        manager: project.manager
-      });
-    }
-  }, [project, form]);
+  const { projects, updateProject, fetchProjects } = useProjects();
 
-  const onUpdate = async (values) => {
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [project, setProject] = useState(null);
+
+  useEffect(() => {
+    if (projects.length > 0) {
+      const currentProject = projects.find((p) => p.id === id);
+      if (currentProject) {
+        setProject(currentProject);
+        setTimeout(() => {
+          form.setFieldsValue({
+            name: currentProject.name,
+            description: currentProject.description,
+            startDate: dayjs(currentProject.startDate, dateFormat),
+            endDate: dayjs(currentProject.endDate, dateFormat),
+            manager: currentProject.manager
+          });
+        }, 0);
+      } else {
+        message.error("Project not found!");
+      }
+    }
+  }, [id, projects, form]);
+
+  const handleEdit = async (values) => {
     try {
+      setLoading(true);
       const updatedProject = {
+        ...project,
         ...values,
         startDate: values.startDate.format(dateFormat),
         endDate: values.endDate.format(dateFormat)
       };
-      console.log("updatedProject333", updatedProject);
-      await dispatch(updateProject(updatedProject)).unwrap();
-      console.log("updatedProject222", updatedProject);
-
-      navigate("/projects");
+      await updateProject(updatedProject);
 
       message.success("Project updated successfully!");
+      fetchProjects();
+      navigate("/projects");
     } catch (error) {
       console.error(error);
-      setError("Failed to update project. Please try again.");
-      message.error("Failed to update project.");
+      message.error("Failed to update project. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (!project) return <div>Loading...</div>;
+  if (loading || !project) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <Form form={form} layout="vertical" onFinish={onUpdate}>
-      <Form.Item label="Project ID" name="id">
+    <Form form={form} layout="vertical" onFinish={handleEdit}>
+      <Form.Item label="Project ID">
         <Input value={project.id} readOnly className="bg-white border-0 p-2 outline-none" />
       </Form.Item>
       <Form.Item label="Project Name" name="name" rules={[{ required: true }]}>
@@ -74,9 +82,9 @@ const ProjectEdit = () => {
         <Input />
       </Form.Item>
 
-      {error && <div className="text-red-500">{error}</div>}
+      {/* {error && <div className="text-red-500">{error}</div>} */}
 
-      <SharedButton type="primary" htmlType="submit">
+      <SharedButton type="primary" htmlType="submit" loading={loading}>
         Update
       </SharedButton>
     </Form>

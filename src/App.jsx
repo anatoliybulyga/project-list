@@ -1,15 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./redux/store";
 import Layout from "./components/Layout";
 import ProjectList from "./pages/ProjectList";
 import ProjectEdit from "./pages/ProjectEdit";
 import ProjectCreate from "./pages/ProjectCreate";
 import ProjectDetails from "./pages/ProjectDetails";
+import { ProjectsProvider } from "./context/ProjectsContext";
 
 const App = () => (
-  <Provider store={store}>
+  <ProjectsProvider>
     <Router>
       <Layout>
         <Routes>
@@ -22,7 +21,7 @@ const App = () => (
         </Routes>
       </Layout>
     </Router>
-  </Provider>
+  </ProjectsProvider>
 );
 
 export default App;

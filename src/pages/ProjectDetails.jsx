@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useProjects } from "../context/ProjectsContext";
 
 const ProjectDetails = () => {
   const { id } = useParams();
-
   const navigate = useNavigate();
-  const project = useSelector((state) => state.projects.find((project) => project.id === id));
-  const [projectData, setProjectData] = useState(project);
+  const { projects } = useProjects();
+  const [projectData, setProjectData] = useState(null);
 
   useEffect(() => {
-    if (project) {
-      setProjectData(project);
+    if (projects.length > 0) {
+      const currentProject = projects.find((project) => project.id === id);
+      setProjectData(currentProject);
     }
-  }, [project]);
+  }, [id, projects]);
 
   if (!projectData) {
     return <div className="text-center mt-10 text-red-500">Project not found</div>;

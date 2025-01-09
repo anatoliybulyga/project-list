@@ -1,12 +1,13 @@
 import React from "react";
 import { Menu } from "antd";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useProjects } from "../context/ProjectsContext";
 
 const Sidebar = () => {
-  const projects = useSelector((state) => state.projects);
-  const favoriteProjects = projects.filter((project) => project.isFavorite);
   const navigate = useNavigate();
+  const { projects } = useProjects();
+
+  const favoriteProjects = projects.filter((project) => project.isFavorite);
 
   const handleClick = (e) => {
     navigate(`/projects/${e.key}`);

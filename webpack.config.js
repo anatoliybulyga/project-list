@@ -1,5 +1,14 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const dotenv = require("dotenv");
+const webpack = require("webpack");
+
+const env = dotenv.config().parsed;
+
+const envKeys = Object.keys(env || {}).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 module.exports = {
   mode: "development",
@@ -26,12 +35,16 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".js", ".jsx"]
+    extensions: [".js", ".jsx"],
+    alias: {
+      react: require.resolve("react")
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public", "index.html") // Path to your "index.html" template
-    })
+    }),
+    new webpack.DefinePlugin(envKeys) // Pass only required environment variables
   ],
   devServer: {
     static: "./dist",

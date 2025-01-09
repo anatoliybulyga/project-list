@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, DatePicker, message } from "antd";
 import SharedButton from "../components/shared/Button";
-
-import { useDispatch } from "react-redux";
-import { createProject } from "../redux/slices/projectSlice";
 import dayjs from "dayjs";
+import { useProjects } from "../context/ProjectsContext";
 
-const initalProjectValues = {
-  id: "",
+const initialProjectValues = {
   name: "",
   startDate: undefined,
   endDate: undefined,
@@ -18,37 +15,37 @@ const initalProjectValues = {
 
 const ProjectCreate = () => {
   const [form] = Form.useForm();
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { addProject } = useProjects();
   const dateFormat = "YYYY-MM-DD";
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    if (initalProjectValues) {
-      form.setFieldsValue({
-        ...initalProjectValues,
-        startDate: initalProjectValues.startDate ? dayjs(initalProjectValues.startDate, dateFormat) : null,
-        endDate: initalProjectValues.endDate ? dayjs(initalProjectValues.endDate, dateFormat) : null
-      });
-    }
-  }, [initalProjectValues, form]);
+    form.setFieldsValue({
+      ...initialProjectValues,
+      startDate: initialProjectValues.startDate ? dayjs(initialProjectValues.startDate, dateFormat) : null,
+      endDate: initialProjectValues.endDate ? dayjs(initialProjectValues.endDate, dateFormat) : null
+    });
+  }, [form]);
 
-  const handleCreate = (values) => {
+  const handleCreate = async (values) => {
+    setLoading(true);
     try {
       const newProject = {
         ...values,
-        startDate: values.startDate.format(dateFormat),
-        endDate: values.endDate.format(dateFormat)
+        startDate: values.startDate ? values.startDate.format(dateFormat) : null,
+        endDate: values.endDate ? values.endDate.format(dateFormat) : null
       };
-      dispatch(createProject(newProject));
+
+      await addProject(newProject);
       message.success("Project created successfully!");
 
       navigate("/projects");
     } catch (error) {
       console.error(error);
-      setError("Failed to create project. Please try again.");
-      message.error("Failed to create project.");
+      message.error("Failed to create project. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,9 +70,7 @@ const ProjectCreate = () => {
         <Input />
       </Form.Item>
 
-      {error && <div className="text-red-500">{error}</div>}
-
-      <SharedButton type="primary" htmlType="submit">
+      <SharedButton type="primary" htmlType="submit" loading={loading}>
         Create
       </SharedButton>
     </Form>
@@ -83,5 +78,3 @@ const ProjectCreate = () => {
 };
 
 export default ProjectCreate;
-
-// return <ProjectForm initialValues={initialValues} isCreate={true} onFinish={handleCreate} />;

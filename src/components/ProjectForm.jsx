@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, DatePicker, message } from "antd";
 import dayjs from "dayjs";
 import SharedButton from "./shared/Button";
-import { createProject } from "../redux/slices/projectSlice";
-import { useDispatch } from "react-redux";
 
 const ProjectForm = ({ initialValues, submitButtonLabel, isCreate, onFinish }) => {
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const dateFormat = "YYYY-MM-DD";
 
