@@ -32,8 +32,7 @@ const ProjectForm = ({ initialValues, submitButtonLabel, isCreate, onFinish }) =
       dispatch(createProject(newProject));
       message.success("Project created successfully!");
 
-      // Assuming `navigate` function exists and is properly imported or passed to this component
-      navigate("/"); // Redirect after project creation
+      navigate("/projects");
     } catch (error) {
       console.error(error);
       setError("Failed to create project. Please try again.");

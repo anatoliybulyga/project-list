@@ -37,21 +37,30 @@ const ProjectList = () => {
     {
       title: "Action",
       key: "action",
-      render: (_, record) => <SharedButton onClick={() => navigate(`/edit/${record.id}`)}>Edit</SharedButton>
+      render: (_, record) => (
+        <SharedButton
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/projects/${record.id}/edit`);
+          }}
+        >
+          Edit
+        </SharedButton>
+      )
     }
   ];
 
   return (
     <div className="mt-2 p-4">
       <div className="text-right">
-        <SharedButton className="mb-6" onClick={() => navigate(`/create`)}>
+        <SharedButton className="mb-6" onClick={() => navigate(`/projects/new`)}>
           Create Project
         </SharedButton>
       </div>
 
       <SharedTable
         onRow={(record) => ({
-          onClick: () => navigate(`/details/${record.id}`)
+          onClick: () => navigate(`/projects/${record.id}`)
         })}
         columns={columns}
         dataSource={projects}

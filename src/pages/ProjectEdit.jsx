@@ -16,7 +16,7 @@ const ProjectEdit = () => {
 
   const project = useSelector((state) => state.projects.find((project) => project.id === id));
   const dateFormat = "YYYY-MM-DD";
-
+  console.log("here111");
   useEffect(() => {
     if (project) {
       form.setFieldsValue({
@@ -30,20 +30,22 @@ const ProjectEdit = () => {
     }
   }, [project, form]);
 
-  const onFinish = async (values) => {
+  const onUpdate = async (values) => {
     try {
       const updatedProject = {
         ...values,
         startDate: values.startDate.format(dateFormat),
         endDate: values.endDate.format(dateFormat)
       };
+      console.log("updatedProject333", updatedProject);
+      await dispatch(updateProject(updatedProject)).unwrap();
+      console.log("updatedProject222", updatedProject);
 
-      await dispatch(updateProject(updatedProject));
-
-      navigate("/");
+      navigate("/projects");
 
       message.success("Project updated successfully!");
     } catch (error) {
+      console.error(error);
       setError("Failed to update project. Please try again.");
       message.error("Failed to update project.");
     }
@@ -52,7 +54,7 @@ const ProjectEdit = () => {
   if (!project) return <div>Loading...</div>;
 
   return (
-    <Form form={form} layout="vertical" onFinish={onFinish}>
+    <Form form={form} layout="vertical" onFinish={onUpdate}>
       <Form.Item label="Project ID" name="id">
         <Input value={project.id} readOnly className="bg-white border-0 p-2 outline-none" />
       </Form.Item>

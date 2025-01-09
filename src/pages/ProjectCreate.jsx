@@ -44,7 +44,7 @@ const ProjectCreate = () => {
       dispatch(createProject(newProject));
       message.success("Project created successfully!");
 
-      navigate("/");
+      navigate("/projects");
     } catch (error) {
       console.error(error);
       setError("Failed to create project. Please try again.");

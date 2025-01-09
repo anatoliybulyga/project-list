@@ -9,7 +9,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const handleClick = (e) => {
-    navigate(`/details/${e.key}`);
+    navigate(`/projects/${e.key}`);
   };
 
   const items = [

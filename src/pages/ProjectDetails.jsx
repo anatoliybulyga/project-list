@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 const ProjectDetails = () => {
   const { id } = useParams();
+
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.find((project) => project.id === id));
   const [projectData, setProjectData] = useState(project);
 
@@ -20,11 +20,11 @@ const ProjectDetails = () => {
   }
 
   const handleBack = () => {
-    navigate("/");
+    navigate("/projects");
   };
 
   const handleEdit = () => {
-    navigate(`/edit/${id}`);
+    navigate(`/projects/${id}/edit`);
   };
 
   return (

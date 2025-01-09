@@ -52,16 +52,16 @@ yarn install
 
 Once the dependencies are installed, start the development server.
 
-If you're using npm:
+If you're using npm build and run the project:
 
 ```bash
-npm start
+npm run dev:server
 ```
 
 If you're using Yarn:
 
 ```bash
-yarn start
+yarn dev:server
 ```
 
 The application will be available at http://localhost:3000.

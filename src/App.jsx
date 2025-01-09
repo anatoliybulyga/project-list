@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import Layout from "./components/Layout";
@@ -13,10 +13,11 @@ const App = () => (
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<ProjectList />} />
-          <Route path="/edit/:id" element={<ProjectEdit />} />
-          <Route path="/create" element={<ProjectCreate />} />
-          <Route path="/details/:id" element={<ProjectDetails />} />
+          <Route path="/" element={<Navigate to="/projects" />} />
+          <Route path="/projects" element={<ProjectList />} />
+          <Route path="/projects/:id/edit/" element={<ProjectEdit />} />
+          <Route path="/projects/new" element={<ProjectCreate />} />
+          <Route path="/projects/:id" element={<ProjectDetails />} />
           <Route path="*" element={<div>404 - Not Found</div>} />
         </Routes>
       </Layout>
