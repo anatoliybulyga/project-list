@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import SharedTable from "../components/shared/Table";
 import SharedButton from "../components/shared/Button";
 import { useProjects } from "../context/ProjectsContext";
+import markedFavoriteIcon from "../icons/favorite_1.png";
+import favoriteIcon from "../icons/favorite.png";
 
 const ProjectList = () => {
-  const { projects, status, error } = useProjects();
+  const { projects, status, error, toggleFavorite } = useProjects();
   const navigate = useNavigate();
 
   if (status === "loading") {
@@ -23,27 +25,49 @@ const ProjectList = () => {
     {
       title: "Project ID",
       dataIndex: "id",
-      key: "id"
+      key: "id",
+      align: "center"
     },
     {
       title: "Project Name",
       dataIndex: "name",
-      key: "name"
+      key: "name",
+      align: "center"
     },
     {
       title: "Start Date",
       dataIndex: "startDate",
-      key: "startDate"
+      key: "startDate",
+      align: "center"
     },
     {
       title: "End Date",
       dataIndex: "endDate",
-      key: "endDate"
+      key: "endDate",
+      align: "center"
     },
     {
       title: "Project Manager",
       dataIndex: "manager",
-      key: "manager"
+      key: "manager",
+      align: "center"
+    },
+    {
+      title: "",
+      key: "favorite",
+      align: "center",
+      width: "60px",
+      render: (_, record) => (
+        <img
+          src={record.isFavorite ? markedFavoriteIcon : favoriteIcon}
+          alt={record.isFavorite ? "Favorite" : "Not Favorite"}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFavorite(record.id);
+          }}
+          style={{ cursor: "pointer", width: "24px", height: "24px" }}
+        />
+      )
     },
     {
       title: "Action",
@@ -70,6 +94,7 @@ const ProjectList = () => {
       </div>
 
       <SharedTable
+        rowClassName="cursor-pointer"
         onRow={(record) => ({
           onClick: () => navigate(`/projects/${record.id}`)
         })}

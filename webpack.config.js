@@ -14,13 +14,17 @@ module.exports = {
   mode: "development",
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "dist"), // Output to "dist" directory
+    path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
-    publicPath: "/", // Serve all assets from the root path
+    publicPath: "/",
     clean: true
   },
   module: {
     rules: [
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: "asset/resource"
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -42,9 +46,9 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "public", "index.html") // Path to your "index.html" template
+      template: path.resolve(__dirname, "public", "index.html")
     }),
-    new webpack.DefinePlugin(envKeys) // Pass only required environment variables
+    new webpack.DefinePlugin(envKeys)
   ],
   devServer: {
     static: "./dist",

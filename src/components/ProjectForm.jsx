@@ -1,57 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Form, Input, DatePicker, message } from "antd";
 import dayjs from "dayjs";
 import SharedButton from "./shared/Button";
 
-const ProjectForm = ({ initialValues, submitButtonLabel, isCreate, onFinish }) => {
+const ProjectForm = ({ initialValues, onSubmit, isEditing, loading }) => {
   const [form] = Form.useForm();
-  const [error, setError] = useState(null);
   const dateFormat = "YYYY-MM-DD";
 
   useEffect(() => {
-    if (initialValues) {
-      form.setFieldsValue({
-        ...initialValues,
-        startDate: initialValues.startDate ? dayjs(initialValues.startDate, dateFormat) : null,
-        endDate: initialValues.endDate ? dayjs(initialValues.endDate, dateFormat) : null
-      });
-    }
-  }, [initialValues, form]);
+    form.setFieldsValue({
+      ...initialValues,
+      startDate: initialValues.startDate ? dayjs(initialValues.startDate, dateFormat) : null,
+      endDate: initialValues.endDate ? dayjs(initialValues.endDate, dateFormat) : null
+    });
+  }, [form, initialValues]);
 
-  const handleCreate = (values) => {
+  const handleSubmit = async (values) => {
     try {
-      const newProject = {
+      const formattedValues = {
         ...values,
-        startDate: values.startDate.format(dateFormat),
-        endDate: values.endDate.format(dateFormat)
+        startDate: values.startDate ? values.startDate.format(dateFormat) : null,
+        endDate: values.endDate ? values.endDate.format(dateFormat) : null
       };
-
-      dispatch(createProject(newProject));
-      message.success("Project created successfully!");
-
-      navigate("/projects");
+      await onSubmit(formattedValues);
     } catch (error) {
       console.error(error);
-      setError("Failed to create project. Please try again.");
-      message.error("Failed to create project.");
+      message.error("An error occurred. Please try again.");
     }
   };
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onFinish={(values) => {
-        isCreate ? handleCreate(values) : onFinish(values);
-      }}
-    >
-      <Form.Item label="Project ID" name="id">
-        {isCreate ? (
+    <Form form={form} layout="vertical" onFinish={handleSubmit}>
+      {isEditing ? (
+        <Form.Item label="Project ID">
+          <Input value={initialValues.id} readOnly className="bg-white border-0 p-2 outline-none" />
+        </Form.Item>
+      ) : (
+        <Form.Item label="Project ID" name="id" rules={[{ required: true }]}>
           <Input />
-        ) : (
-          <Input value={initialValues?.id} readOnly className="bg-white border-0 p-2 outline-none" />
-        )}
-      </Form.Item>
+        </Form.Item>
+      )}
       <Form.Item label="Project Name" name="name" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
@@ -59,18 +47,17 @@ const ProjectForm = ({ initialValues, submitButtonLabel, isCreate, onFinish }) =
         <Input.TextArea />
       </Form.Item>
       <Form.Item label="Start Date" name="startDate" rules={[{ required: true }]}>
-        <DatePicker format={dateFormat} />
+        <DatePicker format={dateFormat} allowClear />
       </Form.Item>
       <Form.Item label="End Date" name="endDate" rules={[{ required: true }]}>
-        <DatePicker format={dateFormat} />
+        <DatePicker format={dateFormat} allowClear />
       </Form.Item>
       <Form.Item label="Project Manager" name="manager" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
-      {error && <div className="text-red-500">{error}</div>}
 
-      <SharedButton type="primary" htmlType="submit">
-        {submitButtonLabel}
+      <SharedButton type="primary" htmlType="submit" loading={loading}>
+        {isEditing ? "Update" : "Create"}
       </SharedButton>
     </Form>
   );

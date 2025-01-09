@@ -2,81 +2,92 @@
 
 This project is a simple React-based application that allows you to manage and edit a list of projects, including their names, descriptions, start and end dates, and project manager details. It also includes a sidebar where users can view their favorite projects.
 
-## Features
-
-- **Project List**: View all projects with their details (ID, name, start date, end date, and project manager).
-- **Edit Project**: Edit project details such as name, description, start date, and end date.
-- **Favorites**: Mark projects as "favorites" and view them in the sidebar.
-- **Responsive**: The application is designed to be responsive and work well across different devices.
+# Project Setup Guide
 
 ## Prerequisites
 
-Before you start, make sure you have the following installed:
+Before running the project, ensure you have the following installed on your system:
 
-- [Node.js](https://nodejs.org/) (preferably the latest LTS version)
-- [npm](https://npmjs.com/) or [Yarn](https://yarnpkg.com/)
+- [Node.js](https://nodejs.org/) (LTS version recommended)
+- npm (comes with Node.js)
 
-## Setup
+## Overview
 
-### 1. Clone the Repository
+This project uses a JSON server to mock a backend API and React for the frontend. The instructions below detail how to set up and run both the backend (JSON server) and the frontend.
 
-Clone the repository to your local machine using Git:
+---
 
-```bash
-git clone https://github.com/anatoliybulyga/project-list.git
-```
+## Running the JSON Server
 
-### 2. Navigate to the Project Directory
+### 1. Install Dependencies
 
-```bash
-cd project-list
-```
-
-### 3. Install Dependencies
-
-Install the required dependencies using either npm or Yarn.
-
-If you're using npm:
+Navigate to the project directory and install the necessary dependencies by running:
 
 ```bash
 npm install
 ```
 
-If you're using Yarn:
+### 2. Configure the JSON Server
 
-```bash
-yarn install
+Make sure you have a `db.json` file in the project root. This file serves as the mock database for the JSON server. Example content for `db.json`:
+
+```json
+{
+  "projects": [
+    {
+      "id": "project_a",
+      "name": "Project A",
+      "description": "Description",
+      "startDate": "2023-01-01",
+      "endDate": "2023-12-31",
+      "manager": "John Doe"
+    }
+  ]
+}
 ```
 
-### 4. Start the Development Server
+### 3. Start the JSON Server
 
-Once the dependencies are installed, start the development server.
-
-If you're using npm build and run the project:
+Run the following command to start the JSON server:
 
 ```bash
-npm run dev:server
+npm run start-json-server
 ```
 
-If you're using Yarn:
+By default, the server will run on `http://localhost:3001`. You can access the mock API endpoints such as:
+
+- `http://localhost:3001/projects`
+
+## Running the Frontend
+
+### 1. Start the React App
+
+In a separate terminal, run the following command to start the React frontend:
 
 ```bash
-yarn dev:server
+npm start
 ```
 
-The application will be available at http://localhost:3000.
+The React app will run on `http://localhost:3000` by default. If the port is already in use, it will prompt to use the next available port.
 
-## Usage
+### 2. Update API URL
 
-- **View Projects:** Once the app is running, you can view a list of projects along with their details.
-- **Edit Project:** Click the Edit button on a project to edit its details.
-- **Favorite Projects:** You can mark projects as favorites, and they will appear in the sidebar under "Favorite Projects."
-- **Add New Projects:** Add new projects and manage the project list easily.
+Ensure the frontend is configured to communicate with the JSON server. Check the `API_URL` in your environment configuration (e.g., `.env` file):
 
-## Technologies Used
+```env
+REACT_APP_API_URL=http://localhost:3001
+```
 
-- **React:** JavaScript library for building user interfaces.
-- **React Router:** For routing and navigating between pages (Project List and Edit Project).
-- **Redux Toolkit:** For state management.
-- **Ant Design:** UI components for styling and layout.
-- **Moment.js:** Date manipulation for start and end dates.
+If you are using a different port for the JSON server, update this URL accordingly.
+
+---
+
+## Available npm Scripts
+
+- **`npm run start`**: Starts a local development server using webpack serve.
+- **`npm run start-json-server`**: Starts the JSON server to mock a REST API.
+- **`npm run format`**: Formats the codebase using Prettier. Ensures consistent code style across the project.
+- **`npm run build`**: Compiles the project using Webpack based on the webpack.config.js file.
+- **`npm run dev`**: Runs Webpack in watch mode to recompile the code on changes, enabling efficient development.
+
+---

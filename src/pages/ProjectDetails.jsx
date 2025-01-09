@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useProjects } from "../context/ProjectsContext";
+import markedFavoriteIcon from "../icons/favorite_1.png";
+import favoriteIcon from "../icons/favorite.png";
 
 const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { projects } = useProjects();
+  const { projects, toggleFavorite } = useProjects();
   const [projectData, setProjectData] = useState(null);
 
   useEffect(() => {
@@ -28,7 +30,17 @@ const ProjectDetails = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10 text-lg">
+    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10 text-lg relative">
+      <img
+        className="absolute top-4 right-4 cursor-pointer w-6 h-6"
+        src={projectData.isFavorite ? markedFavoriteIcon : favoriteIcon}
+        alt={projectData.isFavorite ? "Favorite" : "Not Favorite"}
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleFavorite(projectData.id);
+        }}
+        style={{ cursor: "pointer", width: "24px", height: "24px" }}
+      />
       <div className="mb-4 flex flex-col sm:flex-row justify-between">
         <strong className="font-medium text-right sm:w-1/3 mr-6">Project ID</strong>
         <span className="sm:w-2/3 text-left">{projectData.id}</span>

@@ -52,6 +52,21 @@ export const ProjectsProvider = ({ children }) => {
     }
   };
 
+  const toggleFavorite = async (projectId) => {
+    try {
+      const project = projects.find((p) => p.id === projectId);
+      if (!project) return;
+      console.log("project", project);
+      const updatedProject = { ...project, isFavorite: !project.isFavorite };
+
+      await axios.put(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, updatedProject);
+      setProjects((prevProjects) => prevProjects.map((p) => (p.id === projectId ? updatedProject : p)));
+    } catch (err) {
+      console.error("Failed to toggle favorite:", err);
+      throw err;
+    }
+  };
+
   useEffect(() => {
     fetchProjects();
   }, []);
@@ -65,7 +80,8 @@ export const ProjectsProvider = ({ children }) => {
         setStatus,
         fetchProjects,
         addProject,
-        updateProject
+        updateProject,
+        toggleFavorite
       }}
     >
       {children}
