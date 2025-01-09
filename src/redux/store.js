@@ -1,23 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import storage from "redux-persist/lib/storage"; // Default storage for web (localStorage)
-import { persistReducer, persistStore } from "redux-persist";
-import { combineReducers } from "redux";
 import projectReducer from "./slices/projectSlice";
 
-const persistConfig = {
-  key: "root",
-  storage
-};
-
-const rootReducer = combineReducers({
-  projects: projectReducer
-});
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 const store = configureStore({
-  reducer: persistedReducer
+  reducer: {
+    projects: projectReducer
+  }
 });
 
-export const persistor = persistStore(store);
+store.subscribe(() => {
+  // Save the Redux state to localStorage, sessionStorage, or reset on reload.
+  if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+    store.dispatch({ type: "RESET_STATE" });
+  }
+});
+
 export default store;

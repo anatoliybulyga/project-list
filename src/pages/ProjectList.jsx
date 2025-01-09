@@ -41,7 +41,24 @@ const ProjectList = () => {
     }
   ];
 
-  return <SharedTable columns={columns} dataSource={projects} rowKey="id" />;
+  return (
+    <div className="mt-2 p-4">
+      <div className="text-right">
+        <SharedButton className="mb-6" onClick={() => navigate(`/create`)}>
+          Create Project
+        </SharedButton>
+      </div>
+
+      <SharedTable
+        onRow={(record) => ({
+          onClick: () => navigate(`/details/${record.id}`)
+        })}
+        columns={columns}
+        dataSource={projects}
+        rowKey="id"
+      />
+    </div>
+  );
 };
 
 export default ProjectList;

@@ -63,9 +63,12 @@ const projectSlice = createSlice({
       } else {
         console.warn(`Project with id ${id} not found.`);
       }
+    },
+    createProject: (state, action) => {
+      state.push(action.payload);
     }
   }
 });
 
-export const { updateProject } = projectSlice.actions;
+export const { updateProject, createProject } = projectSlice.actions;
 export default projectSlice.reducer;
