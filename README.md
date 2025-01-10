@@ -19,7 +19,13 @@ This project uses a JSON server to mock a backend API and React for the frontend
 
 ## Running the JSON Server
 
-### 1. Install Dependencies
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/anatoliybulyga/project-list.git
+```
+
+### 2. Install Dependencies
 
 Navigate to the project directory and install the necessary dependencies by running:
 
@@ -27,7 +33,7 @@ Navigate to the project directory and install the necessary dependencies by runn
 npm install
 ```
 
-### 2. Configure the JSON Server
+### 3. Configure the JSON Server
 
 Make sure you have a `db.json` file in the project root. This file serves as the mock database for the JSON server. Example content for `db.json`:
 
@@ -46,7 +52,7 @@ Make sure you have a `db.json` file in the project root. This file serves as the
 }
 ```
 
-### 3. Start the JSON Server
+### 4. Start the JSON Server
 
 Run the following command to start the JSON server:
 
